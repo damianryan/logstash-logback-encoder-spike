@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: logstash-logback-encoder-spike

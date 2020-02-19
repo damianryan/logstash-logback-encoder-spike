@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'io.freefair.lombok' version '5.0.0-rc2'
+    id 'org.springframework.boot' version "${springBootVersion}"
+}
+
+group 'com.damianryan.spikes'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+generateLombokConfig.enabled = false
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor platform(group: 'org.springframework.boot', name: 'spring-boot-dependencies', version: springBootVersion)
+    implementation platform(group: 'org.springframework.boot', name: 'spring-boot-dependencies', version: springBootVersion)
+
+    annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
+
+    compileOnly group: 'org.springframework.boot', name: 'spring-boot-devtools' // having this stops error logs appearing
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+
+    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: logstashLogbackEncoderVersion
+}
+
+bootJar {
+    archiveFileName = "${project.name}.jar"
+    doFirst {
+        manifest {
+            attributes 'Implementation-Version': project.version
+        }
+    }
+}
+
+bootRun.doFirst {
+    systemProperty "spring.profiles.active", System.getProperty("spring.profiles.active", "logstash")
+}
+
+processResources {
+    filesMatching('logback-spring.xml') {
+        expand(project.properties)
+    }
+}
