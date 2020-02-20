@@ -15,15 +15,19 @@ public class HelloController {
 
     @GetMapping("/hello/{name}")
     public ResponseEntity<String> hello(@PathVariable final String name, final HttpServletRequest request) {
-        MDC.put("method", request.getMethod());
-        MDC.put("protocol", request.getProtocol());
-        MDC.put("request_url", request.getRequestURL().toString());
-        MDC.put("remote_user", request.getRemoteUser());
-        MDC.put("remote_addr", request.getRemoteAddr());
+        try {
+            MDC.put("method", request.getMethod());
+            MDC.put("protocol", request.getProtocol());
+            MDC.put("request_uri", request.getRequestURI());
+            MDC.put("remote_user", request.getRemoteUser());
+            MDC.put("remote_addr", request.getRemoteAddr());
 
-        ResponseEntity<String> response = ResponseEntity.ok(String.format("Hello, %s", name));
-        MDC.put("status_code", response.getStatusCode().toString());
-        log.info("returned {}", response.getBody());
-        return response;
+            ResponseEntity<String> response = ResponseEntity.ok(String.format("Hello, %s", name));
+            MDC.put("status_code", response.getStatusCode().toString());
+            log.info("returned {}", response.getBody());
+            return response;
+        } finally {
+            MDC.clear();
+        }
     }
 }

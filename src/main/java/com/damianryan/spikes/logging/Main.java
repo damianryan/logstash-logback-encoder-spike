@@ -1,7 +1,6 @@
 package com.damianryan.spikes.logging;
 
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,6 +22,5 @@ public class Main implements CommandLineRunner {
             log.error("something really bad happened", x);
         }
         log.info("you should have seen an error logged");
-        MDC.clear();
     }
 }

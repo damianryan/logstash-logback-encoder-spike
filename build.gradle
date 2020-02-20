@@ -1,7 +1,8 @@
 plugins {
     id 'java'
-    id 'io.freefair.lombok' version '5.0.0-rc2'
+    id 'io.freefair.lombok' version "${lombokPluginVersion}"
     id 'org.springframework.boot' version "${springBootVersion}"
+    id 'idea'
 }
 
 group 'com.damianryan.spikes'
@@ -17,10 +18,7 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor platform(group: 'org.springframework.boot', name: 'spring-boot-dependencies', version: springBootVersion)
     implementation platform(group: 'org.springframework.boot', name: 'spring-boot-dependencies', version: springBootVersion)
-
-    annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
 
     compileOnly group: 'org.springframework.boot', name: 'spring-boot-devtools' // having this stops error logs appearing
 
