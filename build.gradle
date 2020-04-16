@@ -8,8 +8,12 @@ plugins {
 group 'com.damianryan.spikes'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 11
-targetCompatibility = 11
+sourceCompatibility = 14
+targetCompatibility = 14
+
+wrapper {
+    distributionType = Wrapper.DistributionType.ALL
+}
 
 generateLombokConfig.enabled = false
 
