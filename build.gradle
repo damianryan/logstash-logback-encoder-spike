@@ -1,6 +1,6 @@
 plugins {
-    id 'java'
-    id 'io.freefair.lombok' version "${lombokPluginVersion}"
+    id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
+    id 'org.jetbrains.kotlin.plugin.spring' version "${kotlinVersion}"
     id 'org.springframework.boot' version "${springBootVersion}"
     id 'idea'
 }
@@ -8,10 +8,12 @@ plugins {
 group 'com.damianryan.spikes'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 11
-targetCompatibility = 11
-
-generateLombokConfig.enabled = false
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = [ "-Xjsr305=strict" ] // enforce null safety for annotated Spring types
+        jvmTarget = "13"
+    }
+}
 
 repositories {
     mavenCentral()
@@ -25,8 +27,11 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin'
 
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: logstashLogbackEncoderVersion
+    implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib'
+    implementation group: 'org.jetbrains.kotlin', name: 'kotlin-reflect'
 }
 
 bootJar {
